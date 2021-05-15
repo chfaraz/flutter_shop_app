@@ -12,6 +12,7 @@ class Item extends StatelessWidget {
         pre.substring(0, 7) +
         '/' +
         pre.substring(8);
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -53,9 +54,10 @@ class Item extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: image,
                   fit: BoxFit.cover,
+                  memCacheWidth: (100 * devicePixelRatio).round(),
+                  width: 100,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ),
             ),

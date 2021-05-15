@@ -1,3 +1,4 @@
+import 'package:app/bottomAppBar.dart';
 import 'package:app/cart.dart';
 import 'package:app/favoriteDataBlock.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -28,6 +29,7 @@ class ItemDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final DataBlock dataBlock = Provider.of(context);
     final FavoriteBlock favoriteBlock = Provider.of(context);
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return Scaffold(
       appBar: AppBar(
@@ -63,13 +65,13 @@ class ItemDetail extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: CachedNetworkImage(
+                          memCacheWidth: (400 * devicePixelRatio).round(),
+                          width: 400,
                           imageUrl: image,
                           fit: BoxFit.cover,
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) =>
                                   Center(child: CircularProgressIndicator()),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
                         ),
                       ),
                     ),
@@ -136,112 +138,70 @@ class ItemDetail extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  dataBlock.add.toString(),
-                  style: TextStyle(fontSize: 15, color: Colors.grey[900]),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Map data = {
-                          'quantity': 1,
-                          'itemQuantity': quantity,
-                          'title': title,
-                          'price': price,
-                          'image': image,
-                          'catagory': catagory,
-                          'id': id
-                        };
-                        var item = dataBlock.list.firstWhere(
-                            (item) => item['id'] == id,
-                            orElse: () => null);
-                        if (item == null) {
-                          dataBlock.setAddToCart(data);
-                        }
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Map data = {
+                              'quantity': 1,
+                              'itemQuantity': quantity,
+                              'title': title,
+                              'price': price,
+                              'image': image,
+                              'catagory': catagory,
+                              'id': id
+                            };
+                            var item = dataBlock.list.firstWhere(
+                                (item) => item['id'] == id,
+                                orElse: () => null);
+                            if (item == null) {
+                              dataBlock.setAddToCart(data);
+                            }
 
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Cart(),
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Cart(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 30),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 30),
+                            decoration: BoxDecoration(
+                              color: Colors.pink[400],
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.pink[400],
+                                  offset: Offset(0.0, 0.0), //(x,y)
+                                  blurRadius: 7.0,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.shopping_bag_outlined,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  'Buy Now',
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.grey[100]),
+                                )
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                        margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                        decoration: BoxDecoration(
-                          color: Colors.pink[400],
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.pink[400],
-                              offset: Offset(0.0, 0.0), //(x,y)
-                              blurRadius: 7.0,
-                            ),
-                          ],
                         ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.shopping_bag_outlined,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              'Buy Now',
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.grey[100]),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Map data = {
-                          'quantity': 1,
-                          'itemQuantity': quantity,
-                          'title': title,
-                          'price': price,
-                          'image': image,
-                          'catagory': catagory,
-                          'id': id
-                        };
-                        var item = dataBlock.list.firstWhere(
-                            (item) => item['id'] == id,
-                            orElse: () => null);
-                        if (item == null) {
-                          dataBlock.setAddToCart(data);
-                          ScaffoldMessenger.of(context).showSnackBar(added);
-                          print('Added To Cart');
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(error);
-                          print('Already Added');
-                          found = true;
-                        }
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(right: 30),
-                        decoration: BoxDecoration(
-                          color: Colors.pink[400],
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.pink[400],
-                              offset: Offset(0.0, 0.0), //(x,y)
-                              blurRadius: 7.0,
-                              spreadRadius: 0.0,
-                            ),
-                          ],
-                        ),
-                        child:
-                            Icon(Icons.add_shopping_cart, color: Colors.white),
-                      ),
+                      ],
                     ),
                   ],
                 )
@@ -250,6 +210,33 @@ class ItemDetail extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Map data = {
+            'quantity': 1,
+            'itemQuantity': quantity,
+            'title': title,
+            'price': price,
+            'image': image,
+            'catagory': catagory,
+            'id': id
+          };
+          var item = dataBlock.list
+              .firstWhere((item) => item['id'] == id, orElse: () => null);
+          if (item == null) {
+            dataBlock.setAddToCart(data);
+            ScaffoldMessenger.of(context).showSnackBar(added);
+            print('Added To Cart');
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(error);
+            print('Already Added');
+            found = true;
+          }
+        },
+        backgroundColor: Colors.pink[400],
+        child: Icon(Icons.add_shopping_cart, color: Colors.white),
+      ),
+      bottomNavigationBar: BottomBar(active: ''),
     );
   }
 }

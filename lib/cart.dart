@@ -1,3 +1,4 @@
+import 'package:app/bottomAppBar.dart';
 import 'package:app/userBlock.dart';
 import 'package:flutter/material.dart';
 import 'cartCard.dart';
@@ -46,20 +47,23 @@ class _CartState extends State<Cart> {
     final DataBlock dataBlock = Provider.of(context);
     if (dataBlock.list.length == 0) {
       return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.black),
-            title: Text(
-              'Cart',
-              style: TextStyle(color: Colors.black),
-            ),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            'Cart',
+            style: TextStyle(color: Colors.black),
           ),
-          body: Center(
-              child: Container(
-                  child: message == null
-                      ? Text('Nothing In Cart :(')
-                      : Text('$message'))));
+        ),
+        body: Center(
+          child: Container(
+            child:
+                message == null ? Text('Nothing In Cart :(') : Text('$message'),
+          ),
+        ),
+        bottomNavigationBar: BottomBar(active: 'cart'),
+      );
     } else {
       var totl = 0;
       var quan = 0;
@@ -147,6 +151,7 @@ class _CartState extends State<Cart> {
             ),
           ),
         ),
+        bottomNavigationBar: BottomBar(active: 'cart'),
       );
     }
   }

@@ -24,6 +24,7 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final DataBlock dataBlock = Provider.of(context);
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return Container(
       padding: EdgeInsets.all(7),
@@ -51,6 +52,7 @@ class CartCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: CachedNetworkImage(
+                memCacheWidth: (100 * devicePixelRatio).round(),
                 imageUrl: image,
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, downloadProgress) =>

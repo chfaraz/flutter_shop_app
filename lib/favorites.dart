@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:app/cart.dart';
+import 'package:app/detail.dart';
+import 'package:app/favItem.dart';
 import 'package:app/favoriteDataBlock.dart';
 import 'package:app/userBlock.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'bottomAppBar.dart';
 import 'item.dart';
 import 'drower.dart';
 import 'dart:async';
@@ -23,20 +26,21 @@ class _FavoritePageState extends State<FavoritePage> {
   var catagory = [];
   void initState() {
     super.initState();
-    login();
+    getData();
   }
 
-  Future login() async {
-    final FavoriteBlock favoriteBlock = Provider.of(context);
+  Future getData() async {
+    catagory.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String counter = prefs.getString('data');
+    String fav = prefs.getString('fav');
     print(counter);
     setState(() {
       data = json.decode(counter);
     });
 
     setState(() {
-      favList = favoriteBlock.favorite;
+      favList = json.decode(fav);
     });
     for (var id in favList) {
       var item = data.firstWhere((item) => item['_id'] == id);
@@ -47,13 +51,26 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   Widget build(BuildContext context) {
+    var image;
     final FavoriteBlock favoriteBlock = Provider.of(context);
 
     final DataBlock dataBlock = Provider.of(context);
     if (catagory == null) {
-      return Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            'Favorite',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text("nothing in favorits.")],
+          ),
         ),
       );
     } else {
@@ -86,7 +103,30 @@ class _FavoritePageState extends State<FavoritePage> {
                 ),
                 Wrap(
                   children: [
-                    for (var item in catagory) Item(data: item),
+                    for (var item in catagory)
+                      GestureDetector(
+                          onTap: () {
+                            var pre = item['image'].toString();
+                            image = 'http://192.168.0.100:4000/' +
+                                pre.substring(0, 7) +
+                                '/' +
+                                pre.substring(8);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemDetail(
+                                  id: item['_id'],
+                                  image: image,
+                                  title: item['title'],
+                                  price: item['price'],
+                                  detail: item['description'],
+                                  quantity: item['quantity'],
+                                  catagory: item['catagory'],
+                                ),
+                              ),
+                            ).then((value) => getData());
+                          },
+                          child: FavItem(data: item)),
                   ],
                 ),
                 SizedBox(
@@ -110,6 +150,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   : Icons.shopping_cart,
               color: Colors.white),
         ),
+        bottomNavigationBar: BottomBar(active: 'fav'),
         drawer: Drower(),
       );
     }

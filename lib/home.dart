@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app/bottomAppBar.dart';
 import 'package:app/cart.dart';
 import 'package:app/favoriteDataBlock.dart';
 import 'package:app/itemsPage.dart';
@@ -62,7 +63,7 @@ class _HomeState extends State<Home> {
     final FavoriteBlock favoriteBlock = Provider.of(context, listen: false);
     final UserBlock userBlock = Provider.of(context, listen: false);
     favoriteBlock.getfav();
-    name = userBlock.user['name'];
+    // name = userBlock.user['name'];
     if (data == null) {
       return Center(
         child: CircularProgressIndicator(
@@ -261,6 +262,7 @@ class _HomeState extends State<Home> {
                   : Icons.shopping_cart,
               color: Colors.white),
         ),
+        bottomNavigationBar: BottomBar(active: 'home'),
         drawer: Drower(),
       );
     }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app/bottomAppBar.dart';
 import 'package:app/cart.dart';
 import 'package:app/userBlock.dart';
 import 'package:flutter/material.dart';
@@ -110,6 +111,7 @@ class _ItemsPageState extends State<ItemsPage> {
                   : Icons.shopping_cart,
               color: Colors.white),
         ),
+        bottomNavigationBar: BottomBar(active: ''),
         drawer: Drower(),
       );
     }
