@@ -33,13 +33,15 @@ class _HomeState extends State<Home> {
   }
 
   Future login() async {
+    final response = await dio.get('http://192.168.0.101:4000');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String counter = prefs.getString('data');
     print(counter);
-    setState(() {
-      data = json.decode(counter);
-    });
-    final response = await dio.get('http://192.168.0.100:4000');
+    if (counter != null) {
+      setState(() {
+        data = json.decode(counter);
+      });
+    }
 
     var storedData = json.encode(response.data);
     await prefs.setString('data', storedData);

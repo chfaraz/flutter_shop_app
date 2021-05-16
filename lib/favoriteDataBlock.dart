@@ -38,7 +38,9 @@ class FavoriteBlock extends ChangeNotifier {
   Future getfav() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String fav = prefs.getString('fav');
-    _favorite = json.decode(fav);
+    if (fav != null) {
+      _favorite = json.decode(fav);
+    }
   }
 }
 // String data = prefs.getString('fav');
