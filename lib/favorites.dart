@@ -14,6 +14,7 @@ import 'drower.dart';
 import 'dart:async';
 import 'cart.dart';
 import 'data.dart';
+import 'constant.dart';
 
 class FavoritePage extends StatefulWidget {
   @override
@@ -107,7 +108,7 @@ class _FavoritePageState extends State<FavoritePage> {
                       GestureDetector(
                           onTap: () {
                             var pre = item['image'].toString();
-                            image = 'http://192.168.0.100:4000/' +
+                            image = url +
                                 pre.substring(0, 7) +
                                 '/' +
                                 pre.substring(8);
