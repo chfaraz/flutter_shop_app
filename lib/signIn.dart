@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'signUp.dart';
 import 'dart:async';
 import 'home.dart';
+import 'constant.dart';
 import 'package:dio/dio.dart';
 
 class Signin extends StatefulWidget {
@@ -26,8 +27,8 @@ class _SigninState extends State<Signin> {
 
   Future login() async {
     try {
-      final response =
-          await dio.post('http://192.168.0.101:4000/user/login', data: {
+      print(url);
+      final response = await dio.post(url + 'user/login', data: {
         'userName': _controllerUserName.text.toString(),
         'password': _controllerPassword.text.toString()
       });

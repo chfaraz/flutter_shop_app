@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'constant.dart';
 import 'dart:async';
 import 'package:dio/dio.dart';
 
@@ -21,7 +22,7 @@ class _SignUpState extends State<SignUp> {
   var dio = Dio();
   Future signup() async {
     final response = await dio.post(
-      'http://192.168.0.100:4000/user/signup',
+      url + 'user/signup',
       data: {
         'name': _controllerName.text.toString(),
         'userName': _controllerUserName.text.toString(),
@@ -47,8 +48,7 @@ class _SignUpState extends State<SignUp> {
 
   Future login() async {
     try {
-      final response =
-          await dio.post('http://192.168.0.101:4000/user/login', data: {
+      final response = await dio.post(url + 'user/login', data: {
         'userName': _controllerUserName.text.toString(),
         'password': _controllerPassword.text.toString()
       });

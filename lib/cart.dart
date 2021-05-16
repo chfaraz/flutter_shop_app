@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'cartCard.dart';
 import 'package:app/data.dart';
 import 'package:provider/provider.dart';
+import 'constant.dart';
 import 'package:dio/dio.dart';
 
 class Cart extends StatefulWidget {
@@ -24,8 +25,7 @@ class _CartState extends State<Cart> {
 
     dio.options.headers['content-Type'] = 'application/json';
     dio.options.headers["authorization"] = "token $token";
-    final response =
-        await dio.post('http://192.168.0.100:4000/order/checkout', data: {
+    final response = await dio.post(url + 'order/checkout', data: {
       'name': userBlock.user['name'],
       'userName': userBlock.user['userName'],
       'total': total,

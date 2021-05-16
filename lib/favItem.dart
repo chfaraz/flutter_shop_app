@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'detail.dart';
+import 'constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class FavItem extends StatelessWidget {
@@ -9,10 +10,7 @@ class FavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var pre = data['image'].toString();
-    var image = 'http://192.168.0.101:4000/' +
-        pre.substring(0, 7) +
-        '/' +
-        pre.substring(8);
+    var image = url + pre.substring(0, 7) + '/' + pre.substring(8);
     final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return Container(

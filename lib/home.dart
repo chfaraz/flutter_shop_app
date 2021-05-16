@@ -14,6 +14,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'cart.dart';
 import 'data.dart';
+import 'constant.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
   }
 
   Future login() async {
-    final response = await dio.get('http://192.168.0.101:4000');
+    final response = await dio.get(url);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String counter = prefs.getString('data');
     print(counter);
