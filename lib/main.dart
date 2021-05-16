@@ -20,7 +20,7 @@ class HomeSecreen extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FavoriteBlock())
       ],
       child: MaterialApp(
-        home: Home(),
+        home: Signin(),
       ),
     );
   }

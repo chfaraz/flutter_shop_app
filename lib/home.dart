@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
     final FavoriteBlock favoriteBlock = Provider.of(context, listen: false);
     final UserBlock userBlock = Provider.of(context, listen: false);
     favoriteBlock.getfav();
-    // name = userBlock.user['name'];
+    name = userBlock.user['name'];
     if (data == null) {
       return Center(
         child: CircularProgressIndicator(
